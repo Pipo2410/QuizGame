@@ -2,7 +2,9 @@ const express = require('express');
 const fs = require('fs');
 
 const app = express();
-const questions = JSON.parse(fs.readFileSync('./data/questions.json'));
+const questions = JSON.parse(
+  fs.readFileSync(`${__dirname}/data/questions.json`)
+);
 
 // MIDDLEWARE
 app.use(express.json());
@@ -42,7 +44,7 @@ app.post('/api/v1/question/:id', (req, res) => {
     (el) => el.id === question.correct
   );
 
-  res.status(201).json({
+  res.status(200).json({
     status: 'success',
     data: {
       answer: correct,
