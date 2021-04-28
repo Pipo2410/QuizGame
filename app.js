@@ -21,14 +21,14 @@ app.use('/api/v1/question/:id', (req, res, next) => {
 
 // ROUTE HANDLERS
 app.get('/api/v1/question/:id', (req, res) => {
-  const id = req.params.id * 1;
-  const question = questions.find((q) => q.id === id);
+  const questionID = req.params.id * 1;
+  const question = questions.find((q) => q.id === questionID);
   console.log(question);
 
   res.status(200).json({
     status: 'success',
     data: {
-      id,
+      id: questionID,
       question: question.question,
       answers: question.answers,
     },
