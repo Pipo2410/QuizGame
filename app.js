@@ -1,12 +1,13 @@
 const express = require('express');
 const fs = require('fs');
-
+const cors = require('cors');
 const app = express();
 const questions = JSON.parse(
   fs.readFileSync(`${__dirname}/data/questions.json`)
 );
 
 // MIDDLEWARE
+app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/api/v1/question/:id', (req, res, next) => {
@@ -20,6 +21,12 @@ app.use('/api/v1/question/:id', (req, res, next) => {
 });
 
 // ROUTE HANDLERS
+// app.get('/api/v1/question/', (req, res) => {
+//   const length = questions.length;
+
+//   res.status(200).json({ length });
+// });
+
 app.get('/api/v1/question/:id', (req, res) => {
   const questionID = req.params.id * 1;
   const question = questions.find((q) => q.id === questionID);
@@ -39,7 +46,8 @@ app.post('/api/v1/question/:id', (req, res) => {
   const questionID = req.params.id * 1;
   const answerID = req.body.id;
   const question = questions.find((q) => q.id === questionID);
-  const correct = question.correct === answerID ? 'correct' : 'incorrect';
+  // const correct = question.correct === answerID ? 'correct' : 'incorrect';
+  const correct = question.correct === answerID ? true : false;
   const correctAnswer = question.answers.find(
     (el) => el.id === question.correct
   );
